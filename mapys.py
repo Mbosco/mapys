@@ -29,15 +29,20 @@ class Application(object):
 		self.app_lock = e32.Ao_lock()
 		appuifw.app.exit_key_handler = self.quit
 		appuifw.app.menu = [(u"Exit", self.quit)]
-		#map_icon = appuifw.Icon(u"z:\\resource\apps\avkon2.mbm",16412, 16413)
-		#map_icon2 = appuifw.Icon(u"z:\\resource\apps\avkon2.mbm", 16424, 16425)
-		self.items = [(u"My Position"), (u"Find Places"),(u"Favurites"),(u"Help"),(u"About")]
-		self.mylistbox = appuifw.Listbox(self.items)
+		search_icon = appuifw.Icon(u"Z:\\resource\\apps\\avkon2.mif", 16458,16459)
+		world_icon = appuifw.Icon(u"Z:\\resource\\apps\\avkon2.mif",16544,16545)
+		folder_icon = appuifw.Icon(u"Z:\\resource\\apps\\avkon2.mif", 17506, 17507)
+		about_icon = appuifw.Icon(u"Z:\\resource\\apps\\avkon2.mif", 16588, 16589)
+		self.items = [(u"My Position",u"Learn your position",world_icon), 
+						(u"Find Places",u"Find a location",search_icon),
+						(u"Favourites",u"Saved locations",folder_icon),
+						(u"About",u"About Mapys",about_icon)]
+		self.mylistbox = appuifw.Listbox(self.items,self.handle_selection)
 		appuifw.app.body = self.mylistbox
 
 
 	def handle_selection(self):
-		appuifw.note(u" has been selected.", 'info')
+		appuifw.note(self.items[self.mylistbox.current()][0] + u" has been selected.", 'info')
 	
 	def quit(self):
 		self.app_lock.signal()
