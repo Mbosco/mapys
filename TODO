@@ -1,0 +1,21 @@
+Barış ATA
+brsata@gmail.com
+2010
+*******************************************************************************
+
+Program temelde iki bölümden oluşacak:
+    1) Girilen konumun (örn:izmit,türkiye) haritasının gösterilmesi
+    2) Bulunulan konumun haritasının gösterilmesi
+   
+1) Girilen konumun lat ve lon değerleri google maps üzerinden elde edilecek ve
+yine harita(statik) google maps ten çekilerek geçici bir .png dosyasına kaydedi-
+lecek. Harita bu geçici dosya üzerinden gösterilecek, istenirse konumlarım altı-
+na kaydedilebilecek.
+
+2) GPS üzerinden bulunulan konumun lat ve long değerleri alınarak yine google 
+mapsten çekilecek statik harita ekranda gösterilecek. zoom ve konumlarıma kayıt 
+seçenekleri eklenecek. Konum paylaşmak için twitpic entegrasyonu da eklenebilir.
+
+
+Not: v0.1 ile birlikte bu belge yeniden hazırlanıp README'ye eklenecek. Yeni bir
+yapılacaklar listesi oluşturulacak.
