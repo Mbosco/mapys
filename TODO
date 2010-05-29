@@ -12,7 +12,7 @@ yine harita(statik) google maps ten çekilerek geçici bir .png dosyasına kayde
 lecek. Harita bu geçici dosya üzerinden gösterilecek, istenirse konumlarım altı-
 na kaydedilebilecek.
 
-2) GPS üzerinden bulunulan konumun lat ve long değerleri alınarak yine google 
+2) GPS üzerinden bulunulan konumun lat ve lon değerleri alınarak yine google 
 mapsten çekilecek statik harita ekranda gösterilecek. zoom ve konumlarıma kayıt 
 seçenekleri eklenecek. Konum paylaşmak için twitpic entegrasyonu da eklenebilir.
 
