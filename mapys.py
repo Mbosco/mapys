@@ -1,15 +1,9 @@
-#
-#
-#       Baris Ata
+#      Baris Ata
 #   <brsata@gmail.com>
 #       Kocaeli Universitesi
 #
 #
 
-####
-#  imports...
-####
-# -*- coding: utf-8 -*-
 import appuifw
 import e32
 import globalui
@@ -22,6 +16,7 @@ from key_codes import *
 import sys
 import positioning
 import math
+import os
 
 APP_LOCK = e32.Ao_lock()
 DEFAULT_ZOOM = 14
@@ -99,10 +94,13 @@ class Application(object):
         
         
         def my_position(self):
+                
+                appuifw.app.menu = [(u"Save Map",self.saveMap)]
                 mapFactory = GoogleMaps((360,360), mapType="satellite")
                 image = None
                 canvas = None
                 zoom = [DEFAULT_ZOOM]
+                
                 def setZoom(newValue):
                         zoom[0] = newValue
                 def getZoom():
@@ -179,7 +177,27 @@ class Application(object):
         def about (self):
                 pass 
                 
-        
+        def saveMap(self):
+                        i=0
+                        for f in os.listdir("e:"):
+                                if f=="myPlaces":
+                                        i=1
+                                        
+                        if i==0:
+                                os.mkdir("e:\\myPlaces")
+                                
+                        word = appuifw.query(u"Enter a name for this map", 'text')
+                        source="e:\\tmp_map.jpg"
+                        target="e:\\myPlaces\\"+word+".jpg"
+                        
+                        try:
+                                                        e32.file_copy(target,source)
+                                                       
+                        except:
+                                                        pass 
+                                                        
+       
+                        
         def quit(self):
                 self.app_lock.signal()
                 appuifw.app.set_exit()  
