@@ -65,7 +65,27 @@ class GoogleMaps:
                 return Image.open(file)     
                 
                 
+class FileSelector:
+    def __init__(self,dir=".",ext='.jpg'):
+        self.dir = dir
+        self.ext = ext
+        self.files = {}
  
+        def iter(fileselector,dir,files):
+            for file in files:
+                b,e = os.path.splitext(file)
+                if e == fileselector.ext:
+                    fileselector.files[u'%s' % b] = os.path.join(dir,file)
+ 
+        os.path.walk(self.dir,iter,self)
+        self.sortedkeys = self.files.keys()
+        self.sortedkeys.sort()
+ 
+    def GetKeys(self):
+        return self.sortedkeys
+ 
+    def GetFile(self,index):
+        return self.files[self.sortedkeys[index]]
  
  
 
@@ -79,16 +99,17 @@ class Application(object):
                 self.app_lock = e32.Ao_lock()
                 appuifw.app.exit_key_handler = self.quit
                 appuifw.app.menu = [(u"Exit", self.quit)]
-                search_icon = appuifw.Icon(u"Z:\\resource\\apps\\avkon2.mif", 16458,16459)
+                #search_icon = appuifw.Icon(u"Z:\\resource\\apps\\avkon2.mif", 16458,16459)
                 world_icon = appuifw.Icon(u"Z:\\resource\\apps\\avkon2.mif",16544,16545)
                 folder_icon = appuifw.Icon(u"Z:\\resource\\apps\\avkon2.mif", 17506, 17507)
                 about_icon = appuifw.Icon(u"Z:\\resource\\apps\\avkon2.mif", 16588, 16589)
-                self.items = [(u"My Position",u"Learn your position",world_icon), 
-                                                           (u"Find Places",u"Find a location",search_icon),
+                self.items = [(u"My Position",u"Learn your position",world_icon),
                                                            (u"Favourites",u"Saved locations",folder_icon),
                                                            (u"About",u"About Mapys",about_icon)]
                 self.mylistbox = appuifw.Listbox(self.items,self.handle_selection)
                 appuifw.app.body = self.mylistbox
+                self.__menuMain = appuifw.app.menu
+                self.__bgMain = appuifw.app.body
 
  
         def handle_selection(self):
@@ -105,7 +126,7 @@ class Application(object):
         
         def my_position(self):
                 
-                appuifw.app.menu = [(u"Save Map",self.saveMap)]
+                appuifw.app.menu = [(u"Save Map",self.saveMap),(u"Back",self.back),(u"Exit",self.quit)]
                 mapFactory = GoogleMaps((360,360), mapType="satellite")
                 image = None
                 canvas = None
@@ -168,6 +189,7 @@ class Application(object):
                                                         event_callback=handleEvent)
                 appuifw.app.body = canvas
                 
+                
                 oldLatLon = None
                 while True:
                         latLon = gps_data['position']['latitude'], gps_data['position']['longitude']
@@ -181,14 +203,25 @@ class Application(object):
                 self.app_lock.wait()
                         
                 
-        def find_places(self):
-                pass 
         def favourites(self):
-                pass 
+                def handle_redraw(rect):
+                        canvas.blit(img)
+                try:
+                    selector = FileSelector("e:\\myPlaces",".jpg")
+                    index = appuifw.selection_list(selector.GetKeys())
+                except:
+                    appuifw.note(u"File does not exist", "info")
+                img=Image.open(selector.GetFile(index))
+                canvas=appuifw.Canvas(redraw_callback=handle_redraw)
+                appuifw.app.body=canvas
+                appuifw.app.menu = [(u"Back",self.back),(u"Exit", self.quit)]
+                
         def about (self):
                 pass
                
-        
+        def back(self):
+                        appuifw.app.menu = self.__menuMain
+                        appuifw.app.body = self.__bgMain
         def saveMap(self):
                         i=0
                         for f in os.listdir("e:"):
