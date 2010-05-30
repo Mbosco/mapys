@@ -28,6 +28,8 @@ TEMP_FILE = u"e:\\tmp_map."+EXTENSIONS[GOOGLE_IMAGE_FORMAT]
 MIN_ZOOM = 0
 MAX_ZOOM = 19
 GMAPS_URL = "http://maps.google.com/staticmap?center=%f,%f&format="+GOOGLE_IMAGE_FORMAT+"&zoom=%d&size=%dx%d&maptype=%s&markers=%s&key="+GMAPS_KEY
+
+
 class GoogleMaps:
         def __init__(self, (width, height), mapType="mobile", markerColor="green",
                  markerSize="small"):
@@ -61,6 +63,14 @@ class GoogleMaps:
                 file, ignoredHeaders = urllib.urlretrieve(url, TEMP_FILE)
                 
                 return Image.open(file)     
+                
+                
+ 
+ 
+ 
+
+ 
+ 
 
 class Application(object):
         def __init__(self):
@@ -150,7 +160,8 @@ class Application(object):
                         except:
                                 appuifw.note(u'Problem with GPS','error')
                 
-                #initialize GPS
+                #initialize G
+               
                 initialize_gps()
                 
                 canvas = appuifw.Canvas(redraw_callback=drawImage,
@@ -175,8 +186,9 @@ class Application(object):
         def favourites(self):
                 pass 
         def about (self):
-                pass 
-                
+                pass
+               
+        
         def saveMap(self):
                         i=0
                         for f in os.listdir("e:"):
@@ -192,9 +204,10 @@ class Application(object):
                         
                         try:
                                                         e32.file_copy(target,source)
+                                                        appuifw.note(u'Map Saved','info')
                                                        
                         except:
-                                                        pass 
+                                                        appuifw.note(u'Map Could Not Saved','info')
                                                         
        
                         
